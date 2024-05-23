@@ -31,14 +31,46 @@
             <input type="text" id="searchInput" name="searchInput" placeholder= "Search for a song...   ">
         </form>
         
+        <div id="searchedSongs">
 
         {% for artist in songList %}
-             <p>{{artist}}</p>
+            <p>{{artist}}</p> 
         {% endfor %}
+       
+        <div>
 
         </center>
         
-    </div>
+
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        function fetchAndProcessSearchedSongs() {
+            let dataList = [];
+            let searchedSongsList = [];
+            
+            var searchedSongArtist = document.getElementsByTagName("p");
+            
+            for (let i = 0; i < searchedSongArtist.length; i++) {
+                
+                let data = searchedSongArtist[i].innerHTML;
+                dataList.push(data);
+            }
+            
+            searchedSongsList = dataList.map(line => {
+                const [title, artist] = line.split(' - ');
+                return { title, artist };
+            });
+
+            console.log(dataList);
+            console.log(searchedSongsList);
+            
+        }
+        
+        fetchAndProcessSearchedSongs();
+
+        
+        
+    </script>
+    
 </body>
 </html>
