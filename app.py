@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, json
+from pyshorteners import Shortener
 import lyricsgenius as lg
 import csv
 import base64
@@ -122,7 +123,7 @@ def process_form():
             
             return render_template("lyrics.html", content=decoded_lyrics, Song=songName+ " - " + ArtistName)
         
-        elif "-" not in songInput and christianArtistNames != []:
+        elif "-" not in songInput and christianArtistNames != []: 
             return render_template("songsList.html", songList = artistSongforHTML, Song=songName)
         else:
             return render_template("404.html")
@@ -138,5 +139,26 @@ def lyrics():
 def loading():
     return render_template("loading.html")
 
-# if __name__ == "__main__":
-#     app.run(debug=True, port=8002)
+"""# Define routes
+@app.route("/")
+def index():
+    return render_template("index.html")"""
+
+
+# Shortens Setlist URL
+@app.route('/URL_Data', methods=['POST'])
+def receive_datas():
+    global setlistURL
+    data = request.get_json()
+    setlistURL = data.get('setlistURL')
+    url_shortner = Shortener()
+    shortURL = format(url_shortner.tinyurl.short(setlistURL))
+    print(shortURL)
+    return jsonify({'shortenedURL': shortURL})
+    
+
+
+
+
+if __name__ == "__main__":
+    app.run(debug=True, port=8002)
