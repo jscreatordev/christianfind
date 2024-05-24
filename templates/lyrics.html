@@ -6,7 +6,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="static/lyrics.css" class="css">
     <style>
-        #shareButton {
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        
+        .lyrics {
+            margin: 50px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+        
+        .lyrics p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        #buttonContainer {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .controlButton {
             background-color: rgba(255, 255, 255, 0.8);
             border: 3px solid rgba(0, 0, 0, 0.1);
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -14,30 +48,14 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        #shareButton:hover {
+
+        .controlButton:hover {
             background-color: rgba(255, 255, 255, 0.9);
         }
-        #home {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 3px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-            padding: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        #home:hover {
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-        #yt {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 3px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-            padding: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        #yt:hover {
-            background-color: rgba(255, 255, 255, 0.9);
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
     </style>
     <title>Lyrics</title>
@@ -46,10 +64,12 @@
     <div class="lyrics">
         <center>
         <h1 id="title">{{ Song }}</h1>
-        <button onclick="home()" id="home"><i class="fa-solid fa-house"></i></button>
-        <button id="shareButton"><i class="fas fa-share"></i></button>
-        <button id="yt" onclick="setlist()" id="setlist"><i class="fa-solid fa-book"></i></button>
-        <button id="yt" onclick="youtube()" id="youtubeButton"><i class="fa-brands fa-youtube"></i></button>
+        <div id="buttonContainer">
+            <button onclick="home()" class="controlButton"><i class="fa-solid fa-house"></i></button>
+            <button id="shareButton" class="controlButton"><i class="fas fa-share"></i></button>
+            <button onclick="setlist()" class="controlButton"><i class="fa-solid fa-book"></i></button>
+            <button onclick="youtube()" class="controlButton"><i class="fa-brands fa-youtube"></i></button>
+        </div>
         <pre>{{ content }}</pre>
         </center>
     </div>
