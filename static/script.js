@@ -310,7 +310,7 @@ function displaySetlistFromURL() {
         const listItems = setlistContent.querySelectorAll('li');
         listItems.forEach((item, index) => {
             item.addEventListener('click', () => {
-                const selectedSong = SSetlist[index]; // make sure to use []
+                const selectedSong = SSetlist[index];
                 openLyricsSite(selectedSong.title, selectedSong.artist);
             });
         });
