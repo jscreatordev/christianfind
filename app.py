@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, json
+from flask import Flask, render_template, request, jsonify
 from pyshorteners import Shortener
 import lyricsgenius as lg
 import csv
@@ -18,16 +18,14 @@ def receive_data():
     global song_and_artist
     data = request.get_json()
     
-    
     print("Received data from JavaScript:", data)
 
     song_and_artist = data.get('songAndArtist')
     
-    
     if song_and_artist:
         song_name, artist_name = map(str.strip, song_and_artist.split('-', 1))
 
-        genius = lg.Genius("LC2defTjjGgEM09GFXIhStvjR9d_YnZ3WArkc_yoW3aA1ewUgCbJGVk8k2BYuveo")
+        genius = lg.Genius(access_token)
         if artist_name:
             artist = genius.search_artist(artist_name, max_songs=1, sort="title")
             if artist:
@@ -49,12 +47,10 @@ def receive_data():
 def process_form():
     songInput = request.form.get("searchInput")
     
-    
     if "-" in songInput:
         songartistSeparated = songInput.split(" - ")
         songName = songartistSeparated[0].title()
         ArtistName = songartistSeparated[1].title()
-
     else:
         songName = songInput
     
@@ -79,7 +75,6 @@ def process_form():
         artistNames = []
         songTitles = []
         
-        
         songDict = genius.search_songs(songName)
         songResults = songDict["hits"]
         
@@ -90,7 +85,6 @@ def process_form():
             data.append({artistName + " , " + songTitle})   
             artistNames.append(artistName)
             songTitles.append(songTitle)
-        
         
         # New Search Method (Song Name)
         secularArtistNames = []
@@ -103,7 +97,6 @@ def process_form():
             elif artist not in flattenedArtistsDatabase:
                 secularArtistNames.append(artist)
        
-                
         for name in christianArtistNames:
             artistSongforHTML.append(songInput + " - " + name)
             print(songInput + " - " + name)
@@ -111,7 +104,6 @@ def process_form():
         # Output Test Code
         print("Secular: " + str(secularArtistNames))
         print("Christian: " + str(christianArtistNames))
-
 
         if "-" in songInput and ArtistName in christianArtistNames:
             genius = lg.Genius(access_token)
@@ -124,11 +116,10 @@ def process_form():
             return render_template("lyrics.html", content=decoded_lyrics, Song=songName+ " - " + ArtistName)
         
         elif "-" not in songInput and christianArtistNames != []: 
-            return render_template("songsList.html", songList = artistSongforHTML, Song=songName)
+            return render_template("songsList.html", songList=artistSongforHTML, Song=songName)
         else:
             return render_template("404.html")
-        
-        
+
 @app.route("/lyrics")
 def lyrics():
     lyrics_data = request.args.get('lyrics')
@@ -138,12 +129,6 @@ def lyrics():
 @app.route("/loading")
 def loading():
     return render_template("loading.html")
-
-"""# Define routes
-@app.route("/")
-def index():
-    return render_template("index.html")"""
-
 
 # Shortens Setlist URL
 @app.route('/URL_Data', methods=['POST'])
@@ -155,10 +140,6 @@ def receive_datas():
     shortURL = format(url_shortner.tinyurl.short(setlistURL))
     print(shortURL)
     return jsonify({'shortenedURL': shortURL})
-    
-
-
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=8002)
