@@ -1,9 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,100&display=swap'); 
- body,html{
-  margin: 0;
-  position: absolute; 
-  top: 50%; left: 50%; -ms-transform: 
-  translate(-50%, -50%); 
-  transform: translate(-50%, -50%);
-  background: white; font-family: 'Poppins', sans-serif;
- }
+
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+}
+
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body {
+    background-size: 200% 200%;
+    animation: gradientAnimation 10s ease infinite;
+}
+
+
+l-waveform {
+    display: block;
+    margin: auto;
+    --waveform-stroke-linecap: round;
+    --waveform-stroke-dasharray: 150;
+    --waveform-stroke-dashoffset: 75;
+}
+
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+l-waveform {
+    animation: pulse 1.5s infinite;
+    --waveform-color: #ffffff;
+}
